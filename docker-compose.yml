@@ -1,0 +1,32 @@
+version: '3'
+services:
+  # Node.js application
+  app:
+    build:
+       context: /home/sachin/SachinProjects
+       dockerfile: ./docker-compose-node-demo/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - MONGO_URI=""
+    networks:
+      - myapp-network
+
+  # MongoDB database
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - myapp-network
+
+networks:
+  myapp-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
